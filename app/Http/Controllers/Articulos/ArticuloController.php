@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Articulo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Traits\UploadImgTrait;
 
 
 class ArticuloController extends Controller
 {
+    use UploadImgTrait; 
     /**
      * Display a listing of the resource.
      *
@@ -50,7 +52,20 @@ class ArticuloController extends Controller
             if($validacion->fails()){
                     return redirect()->route('articulos.index')->with('error','Todos los campos son requeridos');
             } 
-        Articulo::create($request->all());
+       
+       /* $file=$request->file('imagen');
+        $imagen=$file->getClientOriginalName(); 
+        \Storage::disk('articulos')->put($imagen,  \File::get($file));*/
+
+        $archivo=$request->file('imagen');
+        $nombre=$archivo->getClientOriginalName(); 
+
+        $subeImagen=$this->CargaImagen($archivo,$nombre);
+
+         $data=$request->all();
+         $data['imagen']=$subeImagen;
+
+        Articulo::create($data);
         return redirect()->route('articulos.index')->with('success','Articulo agregado correctamente');
     }
 

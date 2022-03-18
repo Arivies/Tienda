@@ -5,7 +5,7 @@
         <div class="card mt-3 col-md-8 ">
             <div class="card-header text-white bg-secondary">Guardar Articulor</div>
             <div class="card-body">
-                <form action="{{ route('articulos.store') }}" method="POST">
+                <form action="{{ route('articulos.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Articulo</label>
@@ -29,6 +29,12 @@
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Precio</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="precio" name="precio">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Precio</label>
+                        <div class="col-sm-10">
+                            <input type="file" class="form-control" id="imagen" name="imagen">
                         </div>
                     </div>
                     <div class="row mb-3">

@@ -13,9 +13,14 @@ use App\Http\Controllers\Articulos\ArticuloController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('Articulos.index');
+});*/
+
+
+Route::get('/',[ArticuloController::class,'index']);
+
+
 
 Route::resource('/articulos',ArticuloController::class)->names('articulos');

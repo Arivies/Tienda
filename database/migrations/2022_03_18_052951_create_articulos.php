@@ -19,6 +19,7 @@ class CreateArticulos extends Migration
             $table->string('categoria');
             $table->integer('cantidad');
             $table->double('precio',8,2);
+            $table->string('imagen')->nullable();
             $table->timestamps();
         });
     }
