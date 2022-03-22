@@ -21,4 +21,5 @@ Creado en Laravel 8<br/>
     <li>npm install</li>
     <li>Generate key: php artisan key:generate</li>
     <li>Run migrations: php artisan migrate</li>   
+    <li>Create link for directory storage: php artisan storage:link </li>
 </ul> 
