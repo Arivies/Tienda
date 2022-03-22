@@ -1,5 +1,18 @@
 @extends('layout')
 @section('content')
+
+@if ($mensaje = Session::get('error'))
+<div class="alert alert-danger py-2 mt-1 text-center"  id="msg">
+    <strong>{{ $mensaje }}</strong>
+    {{-- @foreach ($errors->all() as $error)
+    <ul>
+        <li>{{$error}}</li>
+    </ul>
+    @endforeach --}}
+</div>
+
+
+@endif
     <div class="container mt-5 d-flex justify-content-center">
 
         <div class="card mt-3 col-md-8 ">
@@ -32,9 +45,12 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="inputEmail3" class="col-sm-2 col-form-label">Precio</label>
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Imagen</label>
                         <div class="col-sm-10">
-                            <input type="file" class="form-control" id="imagen" name="imagen">
+                            <input type="file" class="form-control" id="imagen" name="imagen" accept="image/*">
+                            @if ($errors->has('imagen'))
+                                    <small class="text text-danger">{{ $errors->first('imagen') }}</small>
+                            @endif
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -47,4 +63,11 @@
             </div>
         </div>
     </div>
+@endsection
+@section('js')
+<script>
+    $(document).ready(function(){
+        $("#msg").fadeOut(7500);
+    });
+</script>
 @endsection

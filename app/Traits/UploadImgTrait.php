@@ -8,18 +8,25 @@ use Illuminate\Support\Facades\Image;
 
 trait UploadImgTrait{
 
-    public function CargaImagen($archivo,$nombre){
+    public function CargaArchivo($archivo,$directorio){
 
-        //$file=$request->file('imagen');
-        $file=$archivo;//->file($nombre);
+       /* $file=$archivo;
         $imagen=time().'-'.$file->getClientOriginalName(); 
         \Storage::disk('articulos')->put($imagen,  \File::get($file));
-        return $imagen;
+        return $imagen;*/
+        $file=time().'-'.$archivo->getClientOriginalName();
+        $archivo->storeAS($directorio,$file);
+        return $file; 
+
     }
 
+    public function ObtieneRuta($ruta){       
+        //return Storage::disk($disco)->url($ruta);
+        return Storage::disk('local')->url($ruta);
+        
+    }
 
+    public function EliminaArchivio($ruta){
+         return Storage::disk('local')->delete($ruta);
+    }
 }
-
-
-
-

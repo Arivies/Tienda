@@ -47,23 +47,24 @@ class ArticuloController extends Controller
                                 'articulo'=> 'required',
                                 'categoria'=> 'required',
                                 'cantidad'=> 'required',
-                                'precio'=> 'required'
+                                'precio'=> 'required',
+                                'imagen'=>'image'
                             ]);
             if($validacion->fails()){
-                    return redirect()->route('articulos.index')->with('error','Todos los campos son requeridos');
+                return redirect()->route('articulos.create')->with('error','Alguno de los campos es incorrecto')
+                                                            ->withErrors($validacion);
             } 
-       
-       /* $file=$request->file('imagen');
-        $imagen=$file->getClientOriginalName(); 
-        \Storage::disk('articulos')->put($imagen,  \File::get($file));*/
+            $data=$request->all();
+            if(!empty($request->file('imagen'))){  
 
-        $archivo=$request->file('imagen');
-        $nombre=$archivo->getClientOriginalName(); 
+                /*TOMA ARCHIVO DEL FORM Y LO MUEVE AL SERVIDOR, SE ENVIA EL ARCHIVO Y LA CARPETA GUARDAR, 
+                LA FUNCION RETORNA EL NOMBRE DEL ARCHIVO CON UNA NOMENCLATURA PARA EVITAR REEMPLAZO*/
+                $archivo=$request->file('imagen');
+                $nombreImagen=$this->CargaArchivo($archivo,'articulos');
 
-        $subeImagen=$this->CargaImagen($archivo,$nombre);
-
-         $data=$request->all();
-         $data['imagen']=$subeImagen;
+                /*SE ASIGNAN A UNA NUEVA VARIABLE PARA RENOMBRAR EL CAMPO DEL ARCHIVO*/          
+                $data['imagen']=$nombreImagen;
+            }
 
         Articulo::create($data);
         return redirect()->route('articulos.index')->with('success','Articulo agregado correctamente');
@@ -77,7 +78,8 @@ class ArticuloController extends Controller
      */
     public function show(Articulo $articulo)
     {
-        return view('Articulos.show',compact('articulo'));
+        $ruta=$this->ObtieneRuta('articulos/');
+        return view('Articulos.show',compact('articulo','ruta'));
     }
 
     /**
@@ -88,7 +90,8 @@ class ArticuloController extends Controller
      */
     public function edit(Articulo $articulo)
     {
-        return view('Articulos.edit',compact('articulo'));
+        $ruta=$this->ObtieneRuta('articulos/');
+        return view('Articulos.edit',compact('articulo','ruta'));
     }
 
     /**
@@ -105,15 +108,31 @@ class ArticuloController extends Controller
             'articulo'=> 'required',
             'categoria'=> 'required',
             'cantidad'=> 'required',
-            'precio'=> 'required'
+            'precio'=> 'required',
+            'imagen'=>'image'
         ]);
         if($validacion->fails()){
         return redirect()->route('articulos.index')->with('error','Todos los campos son requeridos');
-        } 
-        $articulo->update($request->all());
-        return redirect()->route('articulos.index')->with('success','Articulo actualizado correctamente');
+        }
+        
+        $data=$request->all();
+        if(!empty($request->file('imagen'))){      
 
+            /*TOMA ARCHIVO DEL FORM Y LO MUEVE AL SERVIDOR, SE ENVIA EL ARCHIVO Y LA CARPETA GUARDAR, 
+            LA FUNCION RETORNA EL NOMBRE DEL ARCHIVO CON UNA NOMENCLATURA PARA EVITAR REEMPLAZO*/
+            $archivo=$request->file('imagen');
+            $nombreImagen=$this->CargaArchivo($archivo,'articulos');
 
+            /*SE ASIGNAN A UNA NUEVA VARIABLE PARA RENOMBRAR EL CAMPO DEL ARCHIVO*/            
+            $data['imagen']=$nombreImagen; 
+
+            /*SE ENVIA UN INPUT OCULTO CON EL NOMBRE DE LA IMG ANTERIOR, SE ENVIA A LA FUNCION 
+            PARA ELIMINARLA Y EVITAR SOBRE ALMACENAMIENTO*/
+            $img_anterior="articulos/".$request->input('ant_imagen');
+            $this->EliminaArchivio($img_anterior);
+        }
+        $articulo->update($data);
+        return redirect()->route('articulos.index')->with('success','Articulo editado correctamente');
     }
 
     /**
@@ -125,6 +144,11 @@ class ArticuloController extends Controller
     public function destroy(Articulo $articulo)
     {
         $articulo->delete();
+        
+        /*SE TOMA EL NOMBRE DE LA IMG DESDE LA BD, SE BUSCA LA IMG Y SE ELIMINA*/
+        $img_eliminar="articulos/".$articulo->imagen;
+        $this->EliminaArchivio($img_eliminar);
+
         return redirect()->route('articulos.index')->with('correcto','Articulo eliminado correctamente');
 
     }

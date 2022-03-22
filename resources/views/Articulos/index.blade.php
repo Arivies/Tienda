@@ -1,6 +1,14 @@
 @extends('layout')
 @section('content')
-    <div class="container mt-5 d-flex justify-content-center">
+
+
+@if ($mensaje = Session::get('success'))
+<div class="alert alert-success py-2 mt-1 text-center" style="height: 45px;" id="msg">
+    <strong>{{ $mensaje }}</strong>
+</div>
+@endif
+
+    <div class="container mt-3 d-flex justify-content-center">
         <div class="card mt-3 col-md-9 ">
             <div class="card-header text-white bg-secondary">Articulos</div>
             <div class="card-body">
@@ -41,4 +49,11 @@
             </div>
         </div>
     </div>
+@endsection
+@section('js')
+<script>
+    $(document).ready(function(){
+        $("#msg").fadeOut(7000);
+    });
+</script>
 @endsection
