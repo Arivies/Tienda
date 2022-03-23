@@ -14,6 +14,6 @@ class Autor extends Model
 
     //Relacion Muchos A Muchos
     public function libros(){
-        return $this->belongsToMany('App\Models\Libros');
+        return $this->belongsToMany('App\Models\Libro');
     }
 }

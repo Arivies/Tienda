@@ -23,6 +23,17 @@
                             <td>TELEFONO: </td>
                             <td class="text-center"> {{ $autore->telefono }}</td>
                         </tr>
+                        <tr>
+                            <td>LIBROS: </td>
+                            <td class="text-center">
+                                @forelse ($autore->libros as $libro)
+                                    {{ $libro->titulo}}
+                                @empty
+                                    Sin autores asignados
+                                @endforelse
+
+                            </td>
+                        </tr>
                     </table>
                 </div>
                 <a class="btn btn-secondary btn-sm" href="{{ route('autores.index') }}">REGRESAR</a>

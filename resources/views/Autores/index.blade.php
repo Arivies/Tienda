@@ -13,6 +13,7 @@
                         <th>Nombre</th>
                         <th>Correo</th>
                         <th>Telefono</th>
+                        <th>Libros</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,6 +23,13 @@
                             <td>{{ $autor->nombre }}</td>
                             <td>{{ $autor->correo }}</td>
                             <td>{{ $autor->telefono }}</td>
+                            <td>
+                                @forelse ($autor->libros as $libro)
+                                    {{ $libro->titulo }}
+                                @empty
+                                    Sin libros asignados
+                                @endforelse
+                            </td>
                             <td class="d-flex flex-row justify-content-center">
                                 <a class="btn btn-sm btn-info"
                                     href="{{ route('autores.show', $autor->id) }}">VER</a>&nbsp;

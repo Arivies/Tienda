@@ -28,8 +28,8 @@
                             <td class="text-center">$ {{ $articulo->precio }}</td>
                         </tr>
                     </table>
-                    <img src="{{ $ruta.$articulo->imagen }}">
-                </div>   
+                    <img src="{{ $ruta.$articulo->imagen }}" width="250px" height="200px">
+                </div>
                 <a class="btn btn-secondary btn-sm" href="{{ route('articulos.index') }}">REGRESAR</a>
             </div>
         </div>

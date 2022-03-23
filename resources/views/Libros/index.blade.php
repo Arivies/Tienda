@@ -23,9 +23,9 @@
                             <td>{{ $libro->editorial }}</td>
                             <td>
                                 @forelse ($libro->autores as $autor)
-                                    <span class="badge badge-secondary">{{ $autor->nombre}}</span>
+                                    {{ $autor->nombre}}
                                 @empty
-                                    <span class="badge badge-warning">Rol sin permisos asignados</span>
+                                    Sin autores asignados
                                 @endforelse
                             </td>
                             <td class="d-flex flex-row justify-content-center">

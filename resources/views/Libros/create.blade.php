@@ -29,11 +29,15 @@
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Autor</label>
                         <div class="col-sm-10">
-                            <select name="autor" id="autor">
-                                @foreach ($autores as $id=>$nombre )
-                                   <option value="{{$id}}">{{ $nombre}}</option>
-                                @endforeach
-                            </select>
+                            <div class="card">
+                                <div class="card-header bg-secondary text-white"><strong>Seleccione Autores</strong></div>
+                                <div class="card-body">
+                                    @foreach ($autores as $id=>$nombre)
+                                        <label for="name" class="col-sm-10">{{ $nombre }}</label>
+                                        <input type="checkbox" class="form-check-input col-sm-2 ml-1" name="autores[]" value="{{ $id}}">
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row mb-3">

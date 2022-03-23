@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Autores;
 
 use App\Http\Controllers\Controller;
 use App\Models\Autor;
+use App\Models\Libro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,7 +18,7 @@ class AutorController extends Controller
     public function index()
     {
         $autores=Autor::query()->paginate(5);
-
+        //dd($autores);
         return view('Autores.index',compact('autores'))
                             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -29,7 +30,8 @@ class AutorController extends Controller
      */
     public function create()
     {
-        return view('Autores.create');
+        $libros =Libro::all()->pluck('titulo','id');
+        return view('Autores.create',compact('libros'));
     }
 
     /**
@@ -49,7 +51,9 @@ class AutorController extends Controller
             return redirect()->route('autores.create')->with('error','Faltan campos requeridos')
                                                       ->withErrors($validacion);
         }
-        Autor::create($request->all());
+
+        $autores=Autor::create($request->all());
+        $autores->libros()->sync($request->input('libros',[]));
         return redirect()->route('autores.index')->with('success','Autor Registrado correctamente');
 
     }
@@ -73,7 +77,9 @@ class AutorController extends Controller
      */
     public function edit(Autor $autore)
     {
-        return view('Autores.edit',compact('autore'));
+        $libros=Libro::all()->pluck('titulo','id');
+        $autore->load('libros');
+        return view('Autores.edit',compact('autore','libros'));
     }
 
     /**
@@ -83,7 +89,7 @@ class AutorController extends Controller
      * @param  \App\Models\Autor  $autor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Autor $autor)
+    public function update(Request $request, Autor $autore)
     {
         $validacion=Validator::make($request->all(),[
             'nombre'=>'required',
@@ -94,7 +100,10 @@ class AutorController extends Controller
             return redirect()->route('autores.edit')->with('error','Faltan campos requeridos')
                                                       ->withErrors($validacion);
         }
-        $autor->update($request->all());
+        $autore->update($request->all());
+        $autore->libros()->sync($request->input('libros',[]));
+
+
         return redirect()->route('autores.index')->with('success','Autor Registrado correctamente');
     }
 

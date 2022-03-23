@@ -43,7 +43,7 @@
                             <input type="hidden" class="form-control form-control-sm" name="ant_imagen"
                                 value="{{ $articulo->imagen }}">
                                 <input type="file" class="form-control form-control-sm" name="imagen"
-                                value="" accept="image/*">
+                                value="" accept="image/*" width="250px" height="200px">
                         </div>
                     </div>
                     <button class="btn btn-secondary btn-sm">ACTUALIZAR</button>

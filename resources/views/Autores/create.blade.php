@@ -33,6 +33,20 @@
                         </div>
                     </div>
                     <div class="row mb-3">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Libros</label>
+                        <div class="col-sm-10">
+                            <div class="card">
+                                <div class="card-header bg-secondary text-white"><strong>Seleccione Libros</strong></div>
+                                <div class="card-body">
+                                    @foreach ($libros as $id=>$titulo)
+                                        <label for="name" class="col-sm-10">{{ $titulo }}</label>
+                                        <input type="checkbox" class="form-check-input col-sm-2 ml-1" name="libros[]" value="{{ $id }}">
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
                         <div class="col-sm-10">
                             <button type="submit" class="btn btn-sm btn-primary">Guardar</button>
                             <a class="btn btn-secondary btn-sm" href="{{ route('autores.index') }}">Regresar</a>

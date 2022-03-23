@@ -11,22 +11,22 @@ trait UploadImgTrait{
     public function CargaArchivo($archivo,$directorio){
 
        /* $file=$archivo;
-        $imagen=time().'-'.$file->getClientOriginalName(); 
+        $imagen=time().'-'.$file->getClientOriginalName();
         \Storage::disk('articulos')->put($imagen,  \File::get($file));
         return $imagen;*/
         $file=time().'-'.$archivo->getClientOriginalName();
-        $archivo->storeAS('public/'.$directorio,$file);
-        return $file; 
+        $archivo->storeAS($directorio,$file);
+        return $file;
 
     }
 
-    public function ObtieneRuta($ruta){       
+    public function ObtieneRuta($ruta){
         //return Storage::disk($disco)->url($ruta);
-        return Storage::disk('local')->url('public/'.$ruta);
-        
+        return Storage::disk('local')->url($ruta);
+
     }
 
     public function EliminaArchivio($ruta){
-         return Storage::disk('local')->delete('public/'.$ruta);
+         return Storage::disk('local')->delete($ruta);
     }
 }

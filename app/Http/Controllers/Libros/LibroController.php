@@ -52,7 +52,7 @@ class LibroController extends Controller
                                                       ->withErrors($validacion);
         }
         $libros=Libro::create($request->all());
-        $libros->autores()->sync($request->input('autor'));
+        $libros->autores()->sync($request->input('autores',[]));
         return redirect()->route('libros.index')->with('success','Libro Registrado correctamente');
     }
 
@@ -75,7 +75,9 @@ class LibroController extends Controller
      */
     public function edit(Libro $libro)
     {
-        return view('Libros.edit',compact('libro'));
+        $autores=Autor::all()->pluck('nombre','id');
+        $libro->load('autores');
+        return view('Libros.edit',compact('libro','autores'));
     }
 
     /**
@@ -96,6 +98,7 @@ class LibroController extends Controller
                                                       ->withErrors($validacion);
         }
         $libro->update($request->all());
+        $libro->autores()->sync($request->input('autores',[]));
         return redirect()->route('libros.index')->with('success','Libro Registrado correctamente');
     }
 

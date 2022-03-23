@@ -19,6 +19,14 @@
                             <td>EDITORIAL:</td>
                             <td class="text-center"> {{ $libro->editorial }}</td>
                         </tr>
+                        <tr>
+                            <td>AUTOR:</td>
+                            <td class="text-center">
+                                @foreach ($libro->autores as $autor )
+                                    {{$autor->nombre}}
+                                @endforeach
+                            </td>
+                        </tr>
                     </table>
                 </div>
                 <a class="btn btn-secondary btn-sm" href="{{ route('libros.index') }}">REGRESAR</a>
